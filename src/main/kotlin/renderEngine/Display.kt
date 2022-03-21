@@ -16,7 +16,7 @@ class Display {
     companion object {
         const val WIDTH = 1280
         const val HEIGHT = 720
-        private var window: Long = 0
+        var window: Long = 0
 
         fun closeDisplay() {
             // Free the window callbacks and destroy the window
@@ -28,26 +28,13 @@ class Display {
             glfwSetErrorCallback(null)?.free();
         }
 
-        fun updateDisplay(renderFunc: ()->Unit) {
-            GL.createCapabilities()
+        fun updateDisplay(renderFunc: () -> Unit) {
+            renderFunc()
+            glfwSwapBuffers(window) // swap the color buffers
 
-            // Set the clear color
-
-            // Set the clear color
-            glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
-
-            // Run the rendering loop until the user has attempted to close
-            // the window or has pressed the ESCAPE key.
-
-
-
-                glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT) // clear the framebuffer
-                glfwSwapBuffers(window) // swap the color buffers
-
-                // Poll for window events. The key callback above will only be
-                // invoked during this call.
-                glfwPollEvents()
-            }
+            // Poll for window events. The key callback above will only be
+            // invoked during this call.
+            glfwPollEvents()
         }
 
         fun shouldWindowClose(): Boolean {
@@ -66,11 +53,14 @@ class Display {
             glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE)
 
             window = glfwCreateWindow(WIDTH, HEIGHT, "CareerSimulator", NULL, NULL)
-            if ( window == NULL )
+            if (window == NULL)
                 throw RuntimeException("Failed to create the GLFW window")
 
             glfwSetKeyCallback(window, GLFWKeyCallbackI { window, key, _, action, _ ->
-                if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) glfwSetWindowShouldClose(window, true) // We will detect this in the rendering loop
+                if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) glfwSetWindowShouldClose(
+                    window,
+                    true
+                ) // We will detect this in the rendering loop
             })
 
             stackPush().use { stack ->
@@ -85,9 +75,9 @@ class Display {
 
                 // Center the window
                 glfwSetWindowPos(
-                        window,
-                        ((vidmode?.width() ?: 0) - pWidth[0]) / 2,
-                        ((vidmode?.height() ?: 0) - pHeight[0]) / 2
+                    window,
+                    ((vidmode?.width() ?: 0) - pWidth[0]) / 2,
+                    ((vidmode?.height() ?: 0) - pHeight[0]) / 2
                 )
             }
 
@@ -98,6 +88,9 @@ class Display {
 
             // Make the window visible
             glfwShowWindow(window);
+
+            GL.createCapabilities()
         }
     }
 }
+

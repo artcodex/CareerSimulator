@@ -27,19 +27,11 @@ class Main {
 
             val model = loader.loadToVAO(vertices)
             while (!Display.shouldWindowClose()) {
-                renderer.prepare()
-
-                // clear the framebuffer
-                GLFW.glfwSwapBuffers(Display.window) // swap the color buffers
-
-                // Poll for window events. The key callback above will only be
-                // invoked during this call.
-                GLFW.glfwPollEvents()
-            }
-            // Loop showing the display until esc key pressed
-            Display.updateDisplay {
-                renderer.prepare()
-                renderer.render(model)
+                // Loop showing the display until esc key pressed
+                Display.updateDisplay {
+                    renderer.prepare()
+                    renderer.render(model)
+                }
             }
 
             // Close resources used for display
