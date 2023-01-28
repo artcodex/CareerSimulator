@@ -4,9 +4,11 @@ import com.bn_gaming.career_simulator.renderEngine.Display
 import com.bn_gaming.career_simulator.renderEngine.Loader
 import com.bn_gaming.career_simulator.renderEngine.Renderer
 
+
 class Main {
     companion object {
-        @JvmStatic fun main(args: Array<String>) {
+        @JvmStatic
+        fun main(args: Array<String>) {
             print("Ready to go")
             val loader = Loader()
             val render = Renderer()

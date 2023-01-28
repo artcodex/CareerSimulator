@@ -1,8 +1,6 @@
 package com.bn_gaming.career_simulator.renderEngine
 
 import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.GL15
-import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL30.*
 import java.nio.FloatBuffer
 class Loader {
@@ -45,6 +43,7 @@ class Loader {
 
         val buffer = storeDataInFloatBuffer(data)
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW)
+        glEnableVertexAttribArray(0)
         glVertexAttribPointer(attributeNumber, 3, GL_FLOAT, false, 0, 0)
 
         glBindBuffer(GL_ARRAY_BUFFER, 0)
