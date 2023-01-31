@@ -3,17 +3,20 @@ package com.bn_gaming.career_simulator.renderEngine
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL30.*
 import java.nio.FloatBuffer
+import java.nio.IntBuffer
+
 class Loader {
     private val vaos: MutableList<Int> = mutableListOf()
     private val vbos: MutableList<Int> = mutableListOf()
 
-    fun loadToVAO(positions: FloatArray): RawModel {
+    fun loadToVAO(positions: FloatArray, indices: IntArray): RawModel {
         val vaoID = createVAO()
 
+        bindIndicesBuffer(indices)
         storeDataInAttributeList(0, positions)
         unbindVAO()
 
-        return RawModel(vaoID = vaoID, vertexCount = positions.size / 3)
+        return RawModel(vaoID = vaoID, vertexCount = indices.size)
     }
 
     private fun createVAO(): Int {
@@ -49,8 +52,27 @@ class Loader {
         glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
 
+    private fun bindIndicesBuffer(indices: IntArray) {
+        val vboID = glGenBuffers()
+        vbos.add(vboID)
+
+        glBindBuffer(GL_ARRAY_BUFFER, vboID)
+        val buffer = storeDataInIntBuffer(indices)
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW)
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+    }
+
     private fun storeDataInFloatBuffer(data: FloatArray): FloatBuffer {
         val buffer = BufferUtils.createFloatBuffer(data.size)
+        buffer.put(data)
+        buffer.flip()
+
+        return buffer
+    }
+
+    private fun storeDataInIntBuffer(data: IntArray): IntBuffer {
+        val buffer = BufferUtils.createIntBuffer(data.size)
         buffer.put(data)
         buffer.flip()
 

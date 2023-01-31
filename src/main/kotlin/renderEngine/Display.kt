@@ -105,9 +105,6 @@ class Display {
             glfwShowWindow(window)
 
             GL.createCapabilities()
-
-            // Do this after the OpenGL context is initialized
-            val debugProc = GLUtil.setupDebugMessageCallback();
         }
     }
 }
