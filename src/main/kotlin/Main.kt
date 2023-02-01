@@ -3,6 +3,7 @@ package com.bn_gaming.career_simulator
 import com.bn_gaming.career_simulator.renderEngine.Display
 import com.bn_gaming.career_simulator.renderEngine.Loader
 import com.bn_gaming.career_simulator.renderEngine.Renderer
+import com.bn_gaming.career_simulator.shaders.StaticShader
 
 
 class Main {
@@ -10,9 +11,11 @@ class Main {
         @JvmStatic
         fun main(args: Array<String>) {
             print("Ready to go")
+            Display.createDisplay()
+
             val loader = Loader()
             val render = Renderer()
-            Display.createDisplay()
+            val shader = StaticShader()
 
             val vertices = floatArrayOf(
                 -0.5f, 0.5f, 0f, // V0
@@ -30,11 +33,15 @@ class Main {
             while (!Display.shouldWindowClose()) {
                 Display.updateDisplay {
                     render.prepare()
+                    shader.start()
                     render.render(model)
+                    shader.stop()
                 }
             }
 
-            Display.closeDisplay()
+            shader.cleanUp()
+            loader.cleanUp()
+            Display.closeDisplay();
         }
     }
 }

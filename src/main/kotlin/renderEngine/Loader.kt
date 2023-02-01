@@ -28,7 +28,7 @@ class Loader {
         return vaoID
     }
 
-    fun cleanup() {
+    fun cleanUp() {
         vaos.forEach {
             glDeleteVertexArrays(it)
         }
@@ -56,11 +56,9 @@ class Loader {
         val vboID = glGenBuffers()
         vbos.add(vboID)
 
-        glBindBuffer(GL_ARRAY_BUFFER, vboID)
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboID)
         val buffer = storeDataInIntBuffer(indices)
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW)
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
 
     private fun storeDataInFloatBuffer(data: FloatArray): FloatBuffer {
