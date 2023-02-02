@@ -8,8 +8,6 @@ import org.lwjgl.glfw.GLFWVidMode
 import org.lwjgl.opengl.GL
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackPush
-import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.MemoryUtil.NULL
 import java.nio.IntBuffer
 
