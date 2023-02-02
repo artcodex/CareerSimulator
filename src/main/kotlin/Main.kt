@@ -1,9 +1,11 @@
 package com.bn_gaming.career_simulator
 
+import com.bn_gaming.career_simulator.models.TexturedModel
 import com.bn_gaming.career_simulator.renderEngine.Display
 import com.bn_gaming.career_simulator.renderEngine.Loader
 import com.bn_gaming.career_simulator.renderEngine.Renderer
 import com.bn_gaming.career_simulator.shaders.StaticShader
+import com.bn_gaming.career_simulator.textures.ModelTexture
 
 
 class Main {
@@ -29,12 +31,23 @@ class Main {
                 3,1,2
             )
 
-            val model = loader.loadToVAO(vertices, indices)
+            val textureCoords = floatArrayOf(
+                0.0f, 0.0f, //V0
+                0.0f, 1.0f, //V1
+                1.0f, 1.0f, //V2
+                1.0f, 0.0f  //V3
+            )
+
+            val model = loader.loadToVAO(vertices, textureCoords, indices)
+            val texture = ModelTexture(loader.loadTexture("texture"))
+            val texturedModel = TexturedModel(model, texture)
+            shader.bindAttributes()
+
             while (!Display.shouldWindowClose()) {
                 Display.updateDisplay {
                     render.prepare()
                     shader.start()
-                    render.render(model)
+                    render.render(texturedModel)
                     shader.stop()
                 }
             }

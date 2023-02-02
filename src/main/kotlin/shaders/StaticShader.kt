@@ -8,5 +8,6 @@ class StaticShader : ShaderProgram(VERTEX_SHADER, FRAGMENT_SHADER) {
 
     override fun bindAttributes() {
         super.bindAttribute(0, "position")
+        super.bindAttribute(1, "textureCoords")
     }
 }
