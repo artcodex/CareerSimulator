@@ -6,10 +6,11 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.glfw.GLFWKeyCallbackI
 import org.lwjgl.glfw.GLFWVidMode
 import org.lwjgl.opengl.GL
-import org.lwjgl.opengl.GLUtil
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.*
+import org.lwjgl.opengl.GL11.*
+import org.lwjgl.system.MemoryUtil.NULL
 import java.nio.IntBuffer
 
 
@@ -48,6 +49,7 @@ class Display {
             }
 
             glfwDefaultWindowHints()
+
             glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE)
             glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE)
 
@@ -61,11 +63,9 @@ class Display {
             glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE)
 
             // Create the window
-            window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL)
-            if ( window == NULL )
+            window = glfwCreateWindow(WIDTH, HEIGHT, "CareerSimulator", NULL, NULL)
+            if (window == NULL)
                 throw RuntimeException("Failed to create the GLFW window")
-
-
 
             glfwSetKeyCallback(window, GLFWKeyCallbackI { window, key, _, action, _ ->
                 if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) glfwSetWindowShouldClose(
@@ -75,7 +75,7 @@ class Display {
             })
 
             val stack: MemoryStack = stackPush()
-            try{
+            try {
                 val pWidth: IntBuffer = stack.mallocInt(1) // int*
                 val pHeight: IntBuffer = stack.mallocInt(1) // int*
 
@@ -108,3 +108,4 @@ class Display {
         }
     }
 }
+

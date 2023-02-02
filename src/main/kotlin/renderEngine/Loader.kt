@@ -5,7 +5,6 @@ import com.bn_gaming.career_simulator.textures.TextureLoader
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL30.*
-//import org.newdawn.slick.
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.IOException

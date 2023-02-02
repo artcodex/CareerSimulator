@@ -4,6 +4,7 @@ import com.bn_gaming.career_simulator.models.RawModel
 import com.bn_gaming.career_simulator.models.TexturedModel
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL30.*
+
 class Renderer {
     fun prepare() {
         GL11.glClearColor(1.0f, 0.0f, 0.0f, 1.0f)

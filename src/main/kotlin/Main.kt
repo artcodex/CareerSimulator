@@ -42,7 +42,6 @@ class Main {
             val texture = ModelTexture(loader.loadTexture("texture"))
             val texturedModel = TexturedModel(model, texture)
             shader.bindAttributes()
-
             while (!Display.shouldWindowClose()) {
                 Display.updateDisplay {
                     render.prepare()
