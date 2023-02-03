@@ -1,24 +1,31 @@
 package com.bn_gaming.career_simulator.shaders
 
+import org.joml.Matrix4f
 import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL20
+import org.joml.Vector3f
+import org.lwjgl.BufferUtils
 import java.io.BufferedReader
 import java.io.FileReader
 import java.io.IOException
+import java.nio.FloatBuffer
 
 
 abstract class ShaderProgram(vertexFile: String, fragmentFile: String) {
-    var programID = 0
-    var vertexShaderID = 0
-    var fragmentShaderID = 0
-
+    private var programID = 0
+    private var vertexShaderID = 0
+    private var fragmentShaderID = 0
     init {
         vertexShaderID = loadShader(vertexFile, GL20.GL_VERTEX_SHADER);
         fragmentShaderID = loadShader(fragmentFile,  GL20.GL_FRAGMENT_SHADER)
+    }
 
+    fun setup() {
         programID = GL20.glCreateProgram()
         GL20.glAttachShader(programID, vertexShaderID)
         GL20.glAttachShader(programID, fragmentShaderID)
+        bindAttributes()
+
         GL20.glLinkProgram(programID)
         GL20.glValidateProgram(programID)
     }
@@ -40,13 +47,44 @@ abstract class ShaderProgram(vertexFile: String, fragmentFile: String) {
         GL20.glDeleteProgram(programID)
     }
 
+    protected abstract fun getAllUniformLocations()
+
+    protected fun getUniformLocation(uniformName: String): Int {
+        return GL20.glGetUniformLocation(programID, uniformName)
+    }
+
     protected fun bindAttribute(attribute: Int, variableName: String) {
         GL20.glBindAttribLocation(programID, attribute, variableName)
     }
 
     abstract fun bindAttributes();
 
+    protected fun loadFloat(location: Int, value: Float) {
+        GL20.glUniform1f(location, value)
+    }
+
+    protected fun loadVector(location: Int, vector: Vector3f) {
+        GL20.glUniform3f(location, vector.x, vector.y, vector.z)
+    }
+
+    protected fun loadBoolean(location: Int, value: Boolean) {
+        var toLoad = 0.0f
+        if (value) {
+            toLoad = 1.0f
+        }
+
+        GL20.glUniform1f(location, toLoad)
+    }
+
+    protected fun loadMatrix(location: Int, matrix: Matrix4f) {
+        matrix.get(matrixBuffer)
+        matrixBuffer.flip()
+        GL20.glUniformMatrix4fv(location, false, matrixBuffer)
+    }
+
     companion object {
+        val matrixBuffer: FloatBuffer = BufferUtils.createFloatBuffer(16)
+
         fun loadShader(file: String, type: Int): Int {
             val shaderSource = StringBuilder()
             try {

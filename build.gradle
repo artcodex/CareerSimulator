@@ -24,6 +24,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl-glfw"
     implementation "org.lwjgl:lwjgl-openal"
     implementation "org.lwjgl:lwjgl-opengl"
+    implementation group: 'org.joml', name: 'joml', version: '1.10.4'
     implementation group: 'org.l33tlabs.twl', name: 'pngdecoder', version: '1.0'
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"

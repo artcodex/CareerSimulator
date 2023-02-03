@@ -41,7 +41,7 @@ class Main {
             val model = loader.loadToVAO(vertices, textureCoords, indices)
             val texture = ModelTexture(loader.loadTexture("texture"))
             val texturedModel = TexturedModel(model, texture)
-            shader.bindAttributes()
+            shader.setup()
             while (!Display.shouldWindowClose()) {
                 Display.updateDisplay {
                     render.prepare()
